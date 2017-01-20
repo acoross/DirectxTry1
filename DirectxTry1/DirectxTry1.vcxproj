@@ -20,14 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="d3dApp.cpp" />
-    <ClCompile Include="d3dDevice.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComObject.h" />
     <ClInclude Include="d3dApp.h" />
-    <ClInclude Include="d3dDevice.h" />
     <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
