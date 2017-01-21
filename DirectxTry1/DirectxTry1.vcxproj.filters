@@ -13,27 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{570248d7-c846-4a68-8f8f-b9b419b9e6ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="d3dApp.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="GameTimer.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="d3dApp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ComObject.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dApp.h">
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="GameTimer.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

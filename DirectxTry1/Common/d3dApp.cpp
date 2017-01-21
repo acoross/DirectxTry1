@@ -288,7 +288,12 @@ namespace Acoross {
 			depthStencilBuffer_.Release();
 
 			// Resize the swap chain and recreate the render target view.
-			HR(swapChain_->ResizeBuffers(1, clientDesc_.Width, clientDesc_.Height, DXGI_FORMAT_R8G8B8A8_UNORM, 0));
+			HR(swapChain_->ResizeBuffers(
+				1, 
+				clientDesc_.Width, 
+				clientDesc_.Height, 
+				DXGI_FORMAT_R8G8B8A8_UNORM, 
+				0));
 
 			resetRenderTargetView();
 
@@ -336,54 +341,44 @@ namespace Acoross {
 		bool D3DApp::initSwapChain()
 		{
 			DXGI_SWAP_CHAIN_DESC swapChainDesc;
-			swapChainDesc.BufferDesc.Width = clientDesc_.Width;
-			swapChainDesc.BufferDesc.Height = clientDesc_.Height;
-			swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
-			swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-			swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-			swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-			if (runtimeOption_.Enable4xMsaa)
 			{
-				swapChainDesc.SampleDesc.Count = 4; // dx11 지원이므로 반드시 4X MSAA 사용 가능하다. 
-				swapChainDesc.SampleDesc.Quality = runtimeOption_.m4xMsaaQuality - 1;
-			}
-			else
-			{
-				swapChainDesc.SampleDesc.Count = 1;
-				swapChainDesc.SampleDesc.Quality = 0;
-			}
+				swapChainDesc.BufferDesc.Width = clientDesc_.Width;
+				swapChainDesc.BufferDesc.Height = clientDesc_.Height;
+				swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+				swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+				swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+				swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+				swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-			swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-			swapChainDesc.BufferCount = 1;
-			swapChainDesc.OutputWindow = clientDesc_.hMainWnd;
-			swapChainDesc.Windowed = true;
-			swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-			swapChainDesc.Flags = 0;
+				if (runtimeOption_.Enable4xMsaa)
+				{
+					swapChainDesc.SampleDesc.Count = 4; // dx11 지원이므로 반드시 4X MSAA 사용 가능하다. 
+					swapChainDesc.SampleDesc.Quality = runtimeOption_.m4xMsaaQuality - 1;
+				}
+				else
+				{
+					swapChainDesc.SampleDesc.Count = 1;
+					swapChainDesc.SampleDesc.Quality = 0;
+				}
+
+				swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+				swapChainDesc.BufferCount = 1;
+				swapChainDesc.OutputWindow = clientDesc_.hMainWnd;
+				swapChainDesc.Windowed = true;
+				swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+				swapChainDesc.Flags = 0;
+			}
 
 			auto dxgiDevice = make_com<IDXGIDevice>(nullptr);
-			if (FAILED(d3dDevice_->QueryInterface(__uuidof(IDXGIDevice), (void**)dxgiDevice.Reset())))
-			{
-				return false;
-			}
+			HR(d3dDevice_->QueryInterface(__uuidof(IDXGIDevice), (void**)dxgiDevice.Reset()));
 
 			auto dxgiAdapter = make_com<IDXGIAdapter>(nullptr);
-			if (FAILED(dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)dxgiAdapter.Reset())))
-			{
-				return false;
-			}
+			HR(dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)dxgiAdapter.Reset()));
 
 			auto dxgiFactory = make_com<IDXGIFactory>(nullptr);
-			if (FAILED(dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)dxgiFactory.Reset())))
-			{
-				return false;
-			}
+			HR(dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)dxgiFactory.Reset()));
 
-			if (FAILED(dxgiFactory->CreateSwapChain(d3dDevice_.Get(), &swapChainDesc, swapChain_.Reset())))
-			{
-				return false;
-			}
+			HR(dxgiFactory->CreateSwapChain(d3dDevice_.Get(), &swapChainDesc, swapChain_.Reset()));
 
 			return true;
 		}
@@ -423,21 +418,15 @@ namespace Acoross {
 			depthStencilDesc.CPUAccessFlags = 0;
 			depthStencilDesc.MiscFlags = 0;
 
-			if (FAILED(d3dDevice_->CreateTexture2D(
+			HR(d3dDevice_->CreateTexture2D(
 				&depthStencilDesc,
 				0,
-				depthStencilBuffer_.Reset())))
-			{
-				return false;
-			}
+				depthStencilBuffer_.Reset()));
 
-			if (FAILED(d3dDevice_->CreateDepthStencilView(
+			HR(d3dDevice_->CreateDepthStencilView(
 				depthStencilBuffer_.Get(),
 				0,
-				depthStencilView_.Reset())))
-			{
-				return false;
-			}
+				depthStencilView_.Reset()));
 
 			return true;
 		}
@@ -448,19 +437,19 @@ namespace Acoross {
 			immediateContext_->OMSetRenderTargets(1, renderTargetView_.Raw(), depthStencilView_.Get());
 			return true;
 		}
-
+		// viewport 는 후면 버퍼 중에서 장면을 그리고자 하는 영역을 의미.
 		bool D3DApp::setViewPortTransform()
 		{
 			// Set the viewport transform.
-			D3D11_VIEWPORT screenViewport_{ 0, };
-			screenViewport_.TopLeftX = 0;
-			screenViewport_.TopLeftY = 0;
-			screenViewport_.Width = static_cast<float>(clientDesc_.Width);
-			screenViewport_.Height = static_cast<float>(clientDesc_.Height);
-			screenViewport_.MinDepth = 0.0f;
-			screenViewport_.MaxDepth = 1.0f;
+			D3D11_VIEWPORT screenViewport{ 0, };
+			screenViewport.TopLeftX = 0;
+			screenViewport.TopLeftY = 0;
+			screenViewport.Width = static_cast<float>(clientDesc_.Width);
+			screenViewport.Height = static_cast<float>(clientDesc_.Height);
+			screenViewport.MinDepth = 0.0f;
+			screenViewport.MaxDepth = 1.0f;
 
-			immediateContext_->RSSetViewports(1, &screenViewport_);
+			immediateContext_->RSSetViewports(1, &screenViewport);
 			return true;
 		}
 	}

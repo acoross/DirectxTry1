@@ -15,6 +15,9 @@ public:
 	virtual void UpdateScene(float deltaTime) override
 	{
 		// scene 에 들어갈 내용을 갱신
+		wchar_t buf[1000]{ 0, };
+		swprintf_s(buf, L"UpdateScene: deltaTime(%.4f)\n", deltaTime * 1000);
+		OutputDebugString(buf);
 	}
 
 	virtual void DrawScene() override
