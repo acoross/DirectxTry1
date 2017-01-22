@@ -18,11 +18,6 @@ namespace Acoross {
 			mainWndCaption_(titleCaption)
 		{
 			gd3dApp = this;
-
-			if (!Init())
-			{
-				throw std::exception("D3DApp initialization failed");
-			}
 		}
 
 		bool D3DApp::Init()
@@ -171,7 +166,7 @@ namespace Acoross {
 		int D3DApp::Run()
 		{
 			timer_.Reset();
-
+			
 			MSG msg{ 0 };
 			while (msg.message != WM_QUIT)
 			{
@@ -257,24 +252,14 @@ namespace Acoross {
 			runtimeOption_.m4xMsaaQuality = m4xMsaaQuality;
 			assert(m4xMsaaQuality > 0);
 
-			if (!initSwapChain())
+			if (initSwapChain())
 			{
-				return false;
+				OnResize();
+				runtimeOption_.Initialized = true;
+				return true;
 			}
 
-			resetRenderTargetView();
-
-			// Create the depth/stencil buffer and view.
-			createStencilBufferView();
-
-			// Bind the render target view and depth/stencil view to the pipeline.
-			bindTargetViewAndStencilBuffer();
-
-			// Set the viewport transform.
-			setViewPortTransform();
-
-			runtimeOption_.Initialized = true;
-			return true;
+			return false;
 		}
 
 		void D3DApp::OnResize()
@@ -451,6 +436,11 @@ namespace Acoross {
 
 			immediateContext_->RSSetViewports(1, &screenViewport);
 			return true;
+		}
+
+		float D3DApp::AspectRatio() const
+		{
+			return static_cast<float>(clientDesc_.Width) / clientDesc_.Height;
 		}
 	}
 }

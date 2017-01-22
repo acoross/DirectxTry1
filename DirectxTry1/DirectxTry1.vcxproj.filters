@@ -14,29 +14,38 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Common">
-      <UniqueIdentifier>{570248d7-c846-4a68-8f8f-b9b419b9e6ac}</UniqueIdentifier>
+      <UniqueIdentifier>{1167ea5c-2881-4c56-873b-eb7c10c84189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ch.6">
+      <UniqueIdentifier>{644a3a31-6aa8-4087-98af-7e0e1a6d1e6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="d3dApp.cpp">
+    <ClCompile Include="Common\d3dApp.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="GameTimer.cpp">
+    <ClCompile Include="BoxApp.cpp">
+      <Filter>Ch.6</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GameTimer.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ComObject.h">
+    <ClInclude Include="Common\d3dApp.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="d3dApp.h">
+    <ClInclude Include="Common\GameTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="GameTimer.h">
+    <ClInclude Include="Common\ComObject.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxApp.h">
+      <Filter>Ch.6</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

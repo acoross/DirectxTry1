@@ -22,7 +22,6 @@ namespace Acoross {
 			XMGLOBALCONST ::DirectX::XMVECTORF32 Yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
 			XMGLOBALCONST ::DirectX::XMVECTORF32 Cyan = { 0.0f, 1.0f, 1.0f, 1.0f };
 			XMGLOBALCONST ::DirectX::XMVECTORF32 Magenta = { 1.0f, 0.0f, 1.0f, 1.0f };
-
 			XMGLOBALCONST ::DirectX::XMVECTORF32 Silver = { 0.75f, 0.75f, 0.75f, 1.0f };
 			XMGLOBALCONST ::DirectX::XMVECTORF32 LightSteelBlue = { 0.69f, 0.77f, 0.87f, 1.0f };
 		}
@@ -31,10 +30,17 @@ namespace Acoross {
 		{
 			if (FAILED(hr))
 			{
+				::MessageBox(NULL, L"dd", L"dd", 0);
+
 				wchar_t buf[100]{ 0, };
 				swprintf_s(buf, L"%s, %d\n", filename.c_str(), line);
 				OutputDebugString(buf);
 			}
+		}
+
+		inline float Clamp(float x, float low, float high)
+		{
+			return x < low ? low : (x > high ? high : x);
 		}
 
 		class D3DApp
@@ -45,17 +51,16 @@ namespace Acoross {
 
 			LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-			// Convenience overrides for handling mouse input.
+			virtual bool Init();
+			
+		protected:
+			virtual void OnResize();
 			virtual void OnMouseDown(WPARAM btnState, int x, int y) { }
 			virtual void OnMouseUp(WPARAM btnState, int x, int y) { }
 			virtual void OnMouseMove(WPARAM btnState, int x, int y) { }
 
 			virtual void UpdateScene(float deltaTime) = 0;
 			virtual void DrawScene() = 0;
-
-		protected:
-			bool Init();	// called by ctor.
-			virtual void OnResize();
 
 			bool InitMainWnd();
 			bool InitD3D();
@@ -66,6 +71,8 @@ namespace Acoross {
 			bool createStencilBufferView();
 			bool bindTargetViewAndStencilBuffer();
 			bool setViewPortTransform();
+
+			float AspectRatio() const;
 
 			GameTimer timer_;
 

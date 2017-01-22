@@ -22,7 +22,7 @@ namespace Acoross {
 			ComObject()
 			{}
 
-			ComObject(TComInterface* obj)
+			explicit ComObject(TComInterface* obj)
 				: raw(obj)
 			{}
 
@@ -63,6 +63,12 @@ namespace Acoross {
 			{
 				Release();
 				return &raw;
+			}
+
+			void Reset(TComInterface* raw)
+			{
+				Release();
+				this->raw = raw;
 			}
 
 			~ComObject()

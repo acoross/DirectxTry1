@@ -78,8 +78,14 @@ namespace Acoross {
 
 		float GameTimer::TotalTime() const
 		{
-
-			return 0.0f;
+			if (stopped_)
+			{
+				return (float)(((stopTick_ - pausedTickAmount_) - baseTick_) * secondsPerCount_);
+			}
+			else
+			{
+				return (float)(((currTick_ - pausedTickAmount_) - baseTick_) * secondsPerCount_);
+			}
 		}
 	}
 }
