@@ -34,7 +34,7 @@ bool Acoross::DxCh6::BoxApp::Init()
 	return true;
 }
 
-// D3DAppì„(ë¥¼) í†µí•´ ìƒì†ë¨
+// D3DAppÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
 
 void Acoross::DxCh6::BoxApp::OnResize()
 {
@@ -135,7 +135,7 @@ void Acoross::DxCh6::BoxApp::OnMouseMove(WPARAM btnState, int x, int y)
 
 void Acoross::DxCh6::BoxApp::buildGeometryBuffers()
 {
-	// box ì •ì  ì •ì˜
+	// box Á¤Á¡ Á¤ÀÇ
 	Vertex box[]
 	{
 		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4((const float*)&Colors::White) },
@@ -148,7 +148,7 @@ void Acoross::DxCh6::BoxApp::buildGeometryBuffers()
 		{ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4((const float*)&Colors::Magenta) }
 	};
 
-	// ë²„í¼
+	// ¹öÆÛ
 	D3D11_BUFFER_DESC boxDesc{ 0, };
 	boxDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	boxDesc.ByteWidth = sizeof(Vertex) * 8;
@@ -157,7 +157,7 @@ void Acoross::DxCh6::BoxApp::buildGeometryBuffers()
 	boxDesc.MiscFlags = 0;
 	boxDesc.StructureByteStride = 0;
 
-	// ë²„í¼ ì´ˆê¸°í™”
+	// ¹öÆÛ ÃÊ±âÈ­
 	D3D11_SUBRESOURCE_DATA vertexInit{ 0, };
 	vertexInit.pSysMem = box;
 	HR(d3dDevice_->CreateBuffer(&boxDesc, &vertexInit, boxVB_.Reset()));
