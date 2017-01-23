@@ -34,7 +34,7 @@ bool Acoross::DxCh6::BoxApp::Init()
 	return true;
 }
 
-// D3DApp¿ª(∏¶) ≈Î«ÿ ªÛº”µ 
+// D3DAppÏùÑ(Î•º) ÌÜµÌï¥ ÏÉÅÏÜçÎê®
 
 void Acoross::DxCh6::BoxApp::OnResize()
 {
@@ -47,8 +47,8 @@ void Acoross::DxCh6::BoxApp::OnResize()
 void Acoross::DxCh6::BoxApp::UpdateScene(float deltaTime)
 {
 	float x = radius_ * sinf(phi_) * cosf(theta_);
-	float y = radius_ * sinf(phi_) * sinf(theta_);
-	float z = radius_ * cosf(phi_);
+	float z = radius_ * sinf(phi_) * sinf(theta_);
+	float y = radius_ * cosf(phi_);
 
 	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
 	XMVECTOR target = XMVectorZero();
@@ -116,7 +116,7 @@ void Acoross::DxCh6::BoxApp::OnMouseMove(WPARAM btnState, int x, int y)
 		float dy = XMConvertToRadians(0.25f * static_cast<float>(y - lastMousePos_.y));
 
 		theta_ += dx;
-		//phi_ += dy;
+		phi_ += dy;
 
 		phi_ = Clamp(phi_, 0.1f, XM_PI - 0.1f);
 	}
@@ -135,7 +135,7 @@ void Acoross::DxCh6::BoxApp::OnMouseMove(WPARAM btnState, int x, int y)
 
 void Acoross::DxCh6::BoxApp::buildGeometryBuffers()
 {
-	// box ¡§¡° ¡§¿«
+	// box Ï†ïÏ†ê Ï†ïÏùò
 	Vertex box[]
 	{
 		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4((const float*)&Colors::White) },
@@ -148,7 +148,7 @@ void Acoross::DxCh6::BoxApp::buildGeometryBuffers()
 		{ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4((const float*)&Colors::Magenta) }
 	};
 
-	// πˆ∆€
+	// Î≤ÑÌçº
 	D3D11_BUFFER_DESC boxDesc{ 0, };
 	boxDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	boxDesc.ByteWidth = sizeof(Vertex) * 8;
@@ -157,7 +157,7 @@ void Acoross::DxCh6::BoxApp::buildGeometryBuffers()
 	boxDesc.MiscFlags = 0;
 	boxDesc.StructureByteStride = 0;
 
-	// πˆ∆€ √ ±‚»≠
+	// Î≤ÑÌçº Ï¥àÍ∏∞Ìôî
 	D3D11_SUBRESOURCE_DATA vertexInit{ 0, };
 	vertexInit.pSysMem = box;
 	HR(d3dDevice_->CreateBuffer(&boxDesc, &vertexInit, boxVB_.Reset()));
