@@ -47,5 +47,11 @@
     <ClInclude Include="BoxApp.h">
       <Filter>Ch.6</Filter>
     </ClInclude>
+    <ClInclude Include="GeometryGenerator.h">
+      <Filter>Ch.6</Filter>
+    </ClInclude>
+    <ClInclude Include="HillApp.h">
+      <Filter>Ch.6</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

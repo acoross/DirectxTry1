@@ -29,6 +29,8 @@
     <ClInclude Include="Common\ComObject.h" />
     <ClInclude Include="Common\d3dApp.h" />
     <ClInclude Include="Common\GameTimer.h" />
+    <ClInclude Include="GeometryGenerator.h" />
+    <ClInclude Include="HillApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FX11\Effects11_2015.vcxproj">
